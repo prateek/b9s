@@ -15,7 +15,12 @@ async function verified(response, descriptor) {
   if (hash !== descriptor.sha256 && !(hash === descriptor.decodedHash && bytes.byteLength === descriptor.decodedBytes)) {
     throw Error('Offline asset does not match this app version');
   }
-  return response;
+  // Embedded browsers can reject Cache.put on a network-backed response stream.
+  // Cache the verified representation and discard its transport encoding.
+  const headers = new Headers(response.headers);
+  headers.delete('Content-Encoding');
+  headers.delete('Content-Length');
+  return new Response(bytes, { status: response.status, statusText: response.statusText, headers });
 }
 
 let preparing;

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { createHash, webcrypto } from 'node:crypto';
 import { runInNewContext } from 'node:vm';
 
-function fixture() {
+function fixture({ rejectNetworkStreams = false } = {}) {
   const scope = 'https://fixture.invalid/b9s/';
   const handlers = new Map(), stores = new Map(), requests = [];
   const files = new Map([['index.html', 'app'], ['app.js', 'script'], ['native-config.json', '{"schema":1}']]);
@@ -12,13 +12,17 @@ function fixture() {
     key, { sha256: createHash('sha256').update(body).digest('hex') },
   ]));
   let network = true;
+  const networkResponses = new WeakSet();
   const caches = {
     async open(name) {
       if (!stores.has(name)) stores.set(name, new Map());
       const entries = stores.get(name);
       return {
         match: async key => entries.get(key)?.clone(),
-        put: async (key, response) => { entries.set(key, response.clone()); },
+        put: async (key, response) => {
+          if (rejectNetworkStreams && networkResponses.has(response)) throw Error('Cache.put() encountered a network error');
+          entries.set(key, response.clone());
+        },
       };
     },
     keys: async () => [...stores.keys()],
@@ -37,7 +41,9 @@ function fixture() {
       requests.push(url);
       if (!network) throw Error('Disconnected');
       const body = files.get(url.slice(scope.length));
-      return new Response(body, { status: body === undefined ? 404 : 200 });
+      const response = new Response(body, { status: body === undefined ? 404 : 200 });
+      if (!url.endsWith('native-config.json')) networkResponses.add(response);
+      return response;
     },
   });
   return {
@@ -61,6 +67,13 @@ function fixture() {
     },
   };
 }
+
+test('verified asset bytes remain cacheable when an embedded browser rejects network response streams', async () => {
+  const f = fixture({ rejectNetworkStreams: true });
+  assert.equal((await f.prepare()).ok, true);
+  f.offline();
+  assert.equal(await (await f.fetch('app.js')).text(), 'script');
+});
 
 test('failed integrity check remains retryable without caching the wrong asset', async () => {
   const f = fixture();
