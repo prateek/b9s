@@ -115,12 +115,13 @@ function pendingWriteLabel(r: WriteRequest): string {
  */
 export async function send(r: WriteRequest, optimistic?: () => void): Promise<WriteResult> {
   const cmd = describe(r);
-  if (optimistic) { optimistic(); render(); }
+  if (optimistic && api.optimisticWrites) { optimistic(); render(); }
   else toast(pendingWriteLabel(r), cmd, null, 30000);
   const res = await api.write(r);
   S.log.unshift({ at: Date.now(), cmd, ok: res.ok });
   if (S.log.length > 100) S.log.length = 100;
-  if (!res.ok) toast("Failed: " + (res.error || "bd returned an error"), cmd, null, 6000);
+  if ("pending" in res && res.pending) toast("Pending: " + res.error, cmd, null, 10000);
+  else if (!res.ok) toast("Failed: " + (res.error || "bd returned an error"), cmd, null, 6000);
   await refresh().catch(e => toast("Reload failed: " + (e instanceof Error ? e.message : String(e))));
   return res;
 }

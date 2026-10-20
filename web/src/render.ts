@@ -113,7 +113,7 @@ function renderHeader(): void {
     <button class="dot ${bad ? "bad" : ""}" id="hdot" data-act="health" aria-label="Data source health">●</button>
     <span class="cnt">${stat("open", "var(--open)", n("open"))}${stat("in progress", "var(--progress)", n("in_progress"))}${n("blocked") ? stat("blocked", "var(--danger)", n("blocked")) : ""}</span>
     <button class="ib follow ${S.follow ? "on" : ""}" data-act="follow" aria-label="Follow mode" aria-pressed="${S.follow}">F</button>
-    <button class="ib" data-act="create" aria-label="Create issue">+</button>
+    ${D.project.read_only ? "" : '<button class="ib" data-act="create" aria-label="Create issue">+</button>'}
     <button class="ib" data-act="help" aria-label="Gestures">?</button>`;
 }
 
@@ -191,7 +191,7 @@ export function renderStale(): void {
   document.body.dataset.live = S.live;
   if (S.live !== "stale") { el.hidden = true; return; }
   el.hidden = false;
-  el.innerHTML = `<span>Offline: showing the last snapshot${S.retryIn ? ` · retry in ${Math.round(S.retryIn / 1000)} s` : ""}</span><button data-act="retrylive">Retry now</button>`;
+  el.innerHTML = `<span>${esc(api.staleMessage())}${S.retryIn ? ` · retry in ${Math.round(S.retryIn / 1000)} s` : ""}</span><button data-act="retrylive">Retry now</button>`;
 }
 
 export const treeList = () => $("#treeList");

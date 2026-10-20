@@ -1,0 +1,35 @@
+diff --git a/cwriter/writer_posix.go b/cwriter/writer_posix.go
+index e80d757a..c9272690 100644
+--- a/cwriter/writer_posix.go
++++ b/cwriter/writer_posix.go
+@@ -1,4 +1,4 @@
+-//go:build !windows
++//go:build !windows && !js
+ 
+ package cwriter
+ 
+diff --git a/cwriter/writer_js.go b/cwriter/writer_js.go
+new file mode 100644
+index 00000000..5e442853
+--- /dev/null
++++ b/cwriter/writer_js.go
+@@ -0,0 +1,19 @@
++package cwriter
++
++import (
++	"bytes"
++	"io"
++)
++
++type Writer struct {
++	*bytes.Buffer
++	out      io.Writer
++	ew       escWriter
++	fd       int
++	terminal bool
++	termSize func(int) (int, int, error)
++}
++
++func (w *Writer) Flush(int) error   { _, err := w.WriteTo(w.out); return err }
++func GetSize(int) (int, int, error) { return -1, -1, ErrNotTTY }
++func IsTerminal(int) bool           { return false }

@@ -1,0 +1,96 @@
+[
+  {
+    "key": "vitess",
+    "path": "github.com/dolthub/vitess",
+    "version": "v0.0.0-20260728212736-0542037326d7",
+    "sum": "h1:gvOpHisi0CbG3hixdGulNQdXy3V7+AWxe37kGBgTmRI=",
+    "goModSum": "h1:5SVEJgAhw5nnQUFnGgKI1Svqes1Mw+zKUsalyxmOuG0=",
+    "patch": "0001-vitess.patch",
+    "files": [
+      "go/mysql/auth_server_static.go"
+    ]
+  },
+  {
+    "key": "fslock",
+    "path": "github.com/dolthub/fslock",
+    "version": "v0.0.5",
+    "sum": "h1:QoXhBhgY1oumHE26qyE7tgmXUT8qjJwxsIzo54O/B/k=",
+    "goModSum": "h1:sdofYYqE0D79zNZyB4/kmlnsQOVap1C2yByjGKSirEM=",
+    "patch": "0002-fslock.patch",
+    "files": [
+      "fslock_js.go"
+    ]
+  },
+  {
+    "key": "flock",
+    "path": "github.com/gofrs/flock",
+    "version": "v0.8.1",
+    "sum": "h1:+gYjHKf32LDeiEEFhQaotPbLuUXjY5ZqxKgXy7n59aw=",
+    "goModSum": "h1:F1TvTiK9OcQqauNUHlbJvyl9Qa1QvF/gOUDKA14jxHU=",
+    "patch": "0003-flock.patch",
+    "files": [
+      "flock_unix.go",
+      "flock_js.go",
+      "go.mod"
+    ]
+  },
+  {
+    "key": "machineid",
+    "path": "github.com/denisbrodbeck/machineid",
+    "version": "v1.0.1",
+    "sum": "h1:geKr9qtkB876mXguW2X6TU4ZynleN6ezuMSRhl4D7AQ=",
+    "goModSum": "h1:dJUwb7PTidGDeYyUBmXZ2GphQBbjJCrnectwCyxcUSI=",
+    "patch": "0004-machineid.patch",
+    "files": [
+      "id_js.go",
+      "go.mod"
+    ]
+  },
+  {
+    "key": "azblob",
+    "path": "github.com/Azure/azure-sdk-for-go/sdk/storage/azblob",
+    "version": "v1.6.4",
+    "sum": "h1:jWQK1GI+LeGGUKBADtcH2rRqPxYB1Ljwms5gFA2LqrM=",
+    "goModSum": "h1:8mwH4klAm9DUgR2EEHyEEAQlRDvLPyg5fQry3y+cDew=",
+    "patch": "0005-azblob.patch",
+    "files": [
+      "internal/shared/mmf_js.go"
+    ]
+  },
+  {
+    "key": "dolt",
+    "path": "github.com/dolthub/dolt/go",
+    "version": "v0.40.5-0.20260806213044-796d07497741",
+    "sum": "h1:z+Disx4RJn0dxaYSzcp8pbiXddi3dpIoUJaMtVa/iBE=",
+    "goModSum": "h1:houDkPceGRjDBdaDsfym5OQUB4465mBUnPvSxMOPrPo=",
+    "patch": "0006-dolt.patch",
+    "files": [
+      "libraries/utils/gitauth/cmd_unix.go",
+      "libraries/utils/gitauth/cmd_js.go"
+    ]
+  },
+  {
+    "key": "mysql-server",
+    "path": "github.com/dolthub/go-mysql-server",
+    "version": "v0.20.1-0.20260805191915-e5eafe0da809",
+    "sum": "h1:c+S3O08LgGS+czU/CuN+/pOKMri5F6kxajoWrTyrE1s=",
+    "goModSum": "h1:9GLxpglhedopzqBGpW0PGrw7UlwG5kBIOepE2QfTQ1s=",
+    "patch": "0007-mysql-server.patch",
+    "files": [
+      "server/net_listener_unix.go",
+      "server/net_listener_js.go"
+    ]
+  },
+  {
+    "key": "mpb",
+    "path": "github.com/vbauerster/mpb/v8",
+    "version": "v8.7.2",
+    "sum": "h1:SMJtxhNho1MV3OuFgS1DAzhANN1Ejc5Ct+0iSaIkB14=",
+    "goModSum": "h1:ZFnrjzspgDHoxYLGvxIruiNk73GNTPG4YHgVNpR10VY=",
+    "patch": "0008-mpb.patch",
+    "files": [
+      "cwriter/writer_posix.go",
+      "cwriter/writer_js.go"
+    ]
+  }
+]

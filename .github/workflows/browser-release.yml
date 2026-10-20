@@ -1,0 +1,42 @@
+name: Browser release
+on:
+  push:
+    tags: ['web-v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      B9S_TEST_BD: .b9s-e2e/release-cli/bd
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version: '1.27.2'
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+      - run: npm --prefix web ci
+      - run: node --test scripts/build-browser.test.mjs web/tests/native-readonly-policy.mjs web/tests/git-remote.mjs web/tests/query-parity.mjs
+      - run: npm --prefix web run typecheck
+      - run: node scripts/build-browser.mjs .b9s-e2e/release-runtime
+      - run: node scripts/package-browser.mjs .b9s-e2e/release-runtime .b9s-e2e/browser-release
+      - run: node scripts/build-beads.mjs .b9s-e2e/release-cli
+      - run: node web/tests/native-fixture.mjs .b9s-e2e/release-fixture
+        env:
+          B9S_TEST_BD: .b9s-e2e/release-cli/bd
+      - run: node web/node_modules/playwright/cli.js install --with-deps chromium webkit
+      - run: node web/tests/native-readonly.mjs .b9s-e2e/browser-release/b9s-web .b9s-e2e/release-fixture/remote.git .b9s-e2e/release-evidence
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: browser-release
+          path: |
+            .b9s-e2e/browser-release/b9s-web.tar.gz
+            .b9s-e2e/browser-release/SHA256SUMS
+            .b9s-e2e/release-evidence/*.png
+            .b9s-e2e/release-evidence/results.json

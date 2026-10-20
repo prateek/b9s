@@ -1,0 +1,26 @@
+diff --git a/server/net_listener_unix.go b/server/net_listener_unix.go
+index e35bf668..76846234 100644
+--- a/server/net_listener_unix.go
++++ b/server/net_listener_unix.go
+@@ -1,4 +1,4 @@
+-//go:build !windows
++//go:build !windows && !js
+ 
+ package server
+ 
+diff --git a/server/net_listener_js.go b/server/net_listener_js.go
+new file mode 100644
+index 00000000..3e018213
+--- /dev/null
++++ b/server/net_listener_js.go
+@@ -0,0 +1,10 @@
++package server
++
++import (
++	"errors"
++	"net"
++)
++
++func newNetListener(string, string) (net.Listener, error) {
++	return nil, errors.New("browser probe: TCP listeners unavailable")
++}

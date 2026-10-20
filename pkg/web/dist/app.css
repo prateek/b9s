@@ -1,5 +1,13 @@
 @import url("tokens.css");
 
+  .sync-dialog { max-width: min(90vw, 480px); max-height: 85dvh; overflow: auto; color: var(--text); background: var(--bg); border: 1px solid var(--line); }
+  .sync-dialog p { line-height: 1.5; }
+  .sync-dialog input { width: 100%; background: var(--bg2); border: 1px solid var(--line); padding: 8px; }
+  .sync-dialog button, #banner button { min-height: 32px; padding: 4px 8px; text-decoration: underline; }
+  .sync-dialog button:disabled { opacity: .5; }
+  .banner.native-reader { flex-wrap: wrap; white-space: normal; justify-content: space-between; height: auto; }
+  .native-reader #native-offline-feedback { flex-basis: 100%; text-align: center; }
+
   html { font-size: var(--font-root-size); height: 100%; box-sizing: border-box; overscroll-behavior: none; touch-action: pan-x pan-y; }
   *, *::before, *::after { box-sizing: border-box; }
   body {
@@ -571,3 +579,6 @@
   .issueMemoryLink summary { cursor: pointer; line-height: 1.7; }
   .issueMemoryLink summary span { color: var(--dim); font-size: .85rem; }
   .issueMemoryLink small { overflow-wrap: anywhere; color: var(--dim); }
+  #native-conflicts details { margin: 12px 0; padding: 8px; border: 1px solid var(--line); }
+  #native-conflicts p { white-space: pre-wrap; overflow-wrap: anywhere; }
+  #native-conflicts h4 { margin: 12px 0 4px; text-transform: capitalize; }

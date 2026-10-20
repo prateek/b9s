@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/gastownhall/beads",
+  "commit": "1fcd715e7545c35a38802d45ba66fa56b5352824",
+  "archive": "upstream.tar.gz",
+  "sha256": "e9ba09377d2bad3d49af68b567f2c5c69b3da42049d8069f860d29c4127e56d4",
+  "license": "MIT",
+  "patches": []
+}

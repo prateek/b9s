@@ -1,0 +1,40 @@
+diff --git a/flock_unix.go b/flock_unix.go
+index c315a3e2..98e2819a 100644
+--- a/flock_unix.go
++++ b/flock_unix.go
+@@ -2,7 +2,8 @@
+ // Use of this source code is governed by the BSD 3-Clause
+ // license that can be found in the LICENSE file.
+ 
+-// +build !aix,!windows
++//go:build !aix && !windows && !js
++// +build !aix,!windows,!js
+ 
+ package flock
+ 
+diff --git a/flock_js.go b/flock_js.go
+new file mode 100644
+index 00000000..3554a4f6
+--- /dev/null
++++ b/flock_js.go
+@@ -0,0 +1,11 @@
++package flock
++
++import "errors"
++
++var errBrowserLock = errors.New("browser probe: cross-process flock unavailable")
++
++func (*Flock) Lock() error             { return errBrowserLock }
++func (*Flock) RLock() error            { return errBrowserLock }
++func (*Flock) TryLock() (bool, error)  { return false, errBrowserLock }
++func (*Flock) TryRLock() (bool, error) { return false, errBrowserLock }
++func (*Flock) Unlock() error           { return errBrowserLock }
+diff --git a/go.mod b/go.mod
+new file mode 100644
+index 00000000..8ad652b8
+--- /dev/null
++++ b/go.mod
+@@ -0,0 +1,3 @@
++module github.com/gofrs/flock
++
++go 1.25

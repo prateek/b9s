@@ -1,0 +1,45 @@
+name: Backend-free checks
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      B9S_TEST_BD: .b9s-e2e/native-cli/bd
+      B9S_RUNTIME_WORK: .b9s-e2e/native-runtime
+      B9S_NATIVE_GIT: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version: '1.27.2'
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+      - run: npm --prefix web ci
+      - run: node --test scripts/build-browser.test.mjs web/tests/git-remote.mjs web/tests/native-readonly-policy.mjs web/tests/native-sync.mjs web/tests/native-offline.mjs web/tests/query-parity.mjs
+      - run: npm --prefix web run typecheck
+      - run: node scripts/build-beads.mjs .b9s-e2e/native-cli
+      - run: node scripts/build-browser.mjs .b9s-e2e/native-runtime
+      - run: node web/tests/native-fixture.mjs .b9s-e2e/native-fixture --site .b9s-e2e/native-preview
+      - run: node web/build.mjs --native --runtime .b9s-e2e/native-runtime --out .b9s-e2e/native-preview
+      - run: node web/node_modules/playwright/cli.js install --with-deps chromium webkit
+      - run: node web/tests/native-preview.mjs .b9s-e2e/native-preview .b9s-e2e/native-preview-evidence
+      - run: node web/tests/native-browser.mjs .b9s-e2e/native-fixture/remote.git
+      - run: node web/build.mjs --native --read-only --runtime .b9s-e2e/native-runtime --out .b9s-e2e/readonly-site
+      - run: node web/tests/native-readonly.mjs .b9s-e2e/readonly-site .b9s-e2e/native-fixture/remote.git .b9s-e2e/readonly-evidence
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        with:
+          name: native-browser-evidence
+          path: |
+            .b9s-e2e/native-runtime/results
+            .b9s-e2e/native-runtime/screenshots
+            .b9s-e2e/native-preview-evidence
+            .b9s-e2e/readonly-evidence

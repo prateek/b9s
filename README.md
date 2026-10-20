@@ -1,5 +1,7 @@
 # b9s
 
+This fork adds a **client-side b9s SPA**: the existing mobile UI, pinned native Beads/Dolt logic in WASM, IndexedDB persistence, and public GitHub reads over CORS. The first browser release is read-only and requires no tokens or application server. Start with [the build and configuration guide](docs/backend-free.md), including current validation limits. Real data sources remain separately configurable; the demo contains synthetic data only. The instructions below describe the inherited terminal and hosted web application.
+
 ![Go Version](https://img.shields.io/github/go-mod/go-version/vanderheijden86/b9s?style=for-the-badge&color=6272a4)
 ![License](https://img.shields.io/badge/License-MIT-50fa7b?style=for-the-badge)
 [![CI](https://img.shields.io/github/actions/workflow/status/vanderheijden86/b9s/ci.yml?branch=main&style=for-the-badge&label=CI)](https://github.com/vanderheijden86/b9s/actions/workflows/ci.yml)

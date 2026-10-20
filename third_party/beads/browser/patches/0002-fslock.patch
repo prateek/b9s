@@ -1,0 +1,25 @@
+diff --git a/fslock_js.go b/fslock_js.go
+new file mode 100644
+index 00000000..46762f7f
+--- /dev/null
++++ b/fslock_js.go
+@@ -0,0 +1,19 @@
++package fslock
++
++import (
++	"errors"
++	"os"
++	"time"
++)
++
++var errBrowserLock = errors.New("browser probe: native filesystem locks require an exclusive browser storage owner")
++
++type Lock struct{}
++
++func New(string) (*Lock, error)                   { return nil, errBrowserLock }
++func NewInRoot(*os.Root, string) (*Lock, error)   { return nil, errBrowserLock }
++func (*Lock) TryLock() error                      { return errBrowserLock }
++func (*Lock) Lock() error                         { return errBrowserLock }
++func (*Lock) Unlock() error                       { return errBrowserLock }
++func (*Lock) Close() error                        { return nil }
++func (*Lock) LockWithTimeout(time.Duration) error { return errBrowserLock }

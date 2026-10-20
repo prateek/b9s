@@ -1,0 +1,29 @@
+diff --git a/libraries/utils/gitauth/cmd_unix.go b/libraries/utils/gitauth/cmd_unix.go
+index ca87976b..bc7407cf 100644
+--- a/libraries/utils/gitauth/cmd_unix.go
++++ b/libraries/utils/gitauth/cmd_unix.go
+@@ -12,7 +12,7 @@
+ // See the License for the specific language governing permissions and
+ // limitations under the License.
+ 
+-//go:build !windows
++//go:build !windows && !js
+ 
+ package gitauth
+ 
+diff --git a/libraries/utils/gitauth/cmd_js.go b/libraries/utils/gitauth/cmd_js.go
+new file mode 100644
+index 00000000..32f7ebf7
+--- /dev/null
++++ b/libraries/utils/gitauth/cmd_js.go
+@@ -0,0 +1,10 @@
++package gitauth
++
++import (
++	"errors"
++	"os/exec"
++)
++
++func CmdSetsid(cmd *exec.Cmd) {
++	cmd.Err = errors.New("browser probe: subprocess Git authentication unavailable")
++}

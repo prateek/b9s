@@ -9,6 +9,8 @@ export class ApiError extends Error {
 }
 
 let csrf = "";
+export const optimisticWrites = true;
+export const staleMessage = () => 'Offline: showing the last snapshot';
 
 async function parse<T>(res: Response): Promise<T> {
   const text = await res.text();

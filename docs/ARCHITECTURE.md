@@ -2,6 +2,8 @@
 
 b9s is a Go program built on [Bubble Tea](https://github.com/charmbracelet/bubbletea). It reads Beads issues from a Dolt server, SQLite or JSONL, renders them as a tree with a Markdown detail pane, and makes every change by running the `bd` CLI. This document describes the packages, the data flow and the decisions that shape them. The [user guide](USER_GUIDE.md) describes what the program does from the outside.
 
+The fork also builds the browser UI as a client-side SPA. Its [native browser runtime](#native-browser-runtime) runs pinned Beads operations over native Dolt in WASM, with IndexedDB persistence and direct GitHub synchronization. The terminal and hosted-server sections below retain their existing CLI architecture.
+
 ## Contents
 
 - [Overview](#overview)
@@ -17,6 +19,7 @@ b9s is a Go program built on [Bubble Tea](https://github.com/charmbracelet/bubbl
 - [Projects and the catalog](#projects-and-the-catalog)
 - [People and identities](#people-and-identities)
 - [The web UI](#the-web-ui)
+- [Native browser runtime](#native-browser-runtime)
 - [Configuration](#configuration)
 - [Decision records](#decision-records)
 
@@ -255,6 +258,18 @@ The Dolt SQL login is a workspace credential shared by every agent, so it is sho
 - **Mermaid**: the browser loads the pinned Mermaid asset only when a detail contains a Mermaid fence. It renders SVG in strict mode, keeps escaped source on failure, and preserves the original text for copy and edit. The asset is embedded with the web bundle. See [ADR 0031](adr/0031-render-mermaid-in-the-web-detail-view.md).
 
 The browser app (`web/src`) keeps one module per concern: `api.ts` the fetch and SSE client, `data.ts` the snapshot and derived fields, `state.ts` the view state and filters, `render.ts` the DOM, `actions.ts` writes, sheets and undo, `gestures.ts` the pointer handlers, `nav.ts` the browser history, and `main.ts` the boot and live updates. `nav.ts` derives the place (view, detail stack, graph path) from the view state after each render and pushes, replaces or steps back a history entry, so no action has to call the History API itself. A live change that arrives while a finger is on a row waits until the gesture ends. See [ADR 0019](adr/0019-serve-a-mobile-web-ui-from-b9s-web.md).
+
+## Native browser runtime
+
+The `--native` site build selects `web/src/native-api.ts` in place of the hosted API client while sharing the rendering, navigation and action modules. It implements session, snapshot, detail, query, write, project and refresh behavior locally. `native-client.mjs` and `native-worker.mjs` bound RPC calls and serialize native operations with Web Locks. `native-store.mjs` keeps native blobs and the operation journal in separate IndexedDB stores.
+
+`web/native` adapts the pinned Beads issue operations to the native Dolt SQL engine. Writes use native validation, optimistic issue revisions and receipts committed with the data. Native merges and reviewed resolutions run the Beads readiness-repair hook before committing. The runtime checks the configured branch and incoming schema; the browser never imports a stale whole JSON snapshot over the database.
+
+`native-sync.mjs` coordinates native merge/prepare operations with `git-remote.mjs`, which reads and publishes the configured data ref through GitHub's CORS-enabled REST API. It publishes reachable committed native chunks with a non-forced Git ref update. Durable journals and commit/receipt readback resolve lost responses. Credentials remain in memory; the offline service worker caches app assets and configuration, while issue data stays in IndexedDB.
+
+`scripts/build-browser.mjs` verifies the pristine source archives and ordered dependency patches under `third_party/beads`, then builds a separate source tree. The site builder checks its runtime manifest and ships the compressed WASM artifact with the matching Go shim. Beads' own source patch series is empty; platform dependency patches provide the browser target.
+
+[ADR 0066](adr/0066-run-native-beads-in-the-browser.md) records this build's boundaries. The [operating guide](backend-free.md) owns configuration, recovery, limitations and validation commands. The first release uses `--native --read-only`: the adapter and worker reject mutations, public Git transport sends no credentials, and each validated remote commit opens an isolated local database. The Actions/issue-snapshot implementation from ADR 0065 is retired.
 
 ## Configuration
 

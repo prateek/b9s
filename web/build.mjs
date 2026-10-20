@@ -10,25 +10,35 @@
 // `b9s web --dev-assets <dir>` reloads the open browsers. It writes no
 // source.sha256, because <dir> is never embedded.
 
-import { context } from "esbuild";
+import { build, context } from "esbuild";
 import { createHash } from "node:crypto";
 import { deflateSync } from "node:zlib";
 import { copyFileSync, mkdirSync, readdirSync, readFileSync, statSync, watch, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
+import { verifyBrowserRuntime } from "../scripts/build-browser.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
-const { values: args } = parseArgs({ options: { watch: { type: "boolean" }, out: { type: "string" } } });
+const { values: args } = parseArgs({ options: { watch: { type: "boolean" }, out: { type: "string" }, native: { type: "boolean" }, 'read-only': { type: 'boolean' }, runtime: { type: "string" } } });
 const dist = args.out ? resolve(args.out) : join(root, "..", "pkg", "web", "dist");
 if (args.watch && !args.out) {
   console.error("build.mjs: --watch needs --out, so a live preview never rewrites the embedded bundle");
   process.exit(2);
 }
+if (args.native && (!args.out || !args.runtime)) throw Error('--native requires --out and --runtime');
+const nativeRuntime = args.native ? verifyBrowserRuntime(resolve(args.runtime)) : undefined;
+if (args['read-only'] && !args.native) throw Error('--read-only requires --native');
+const define = { B9S_READ_ONLY: String(!!args['read-only']) };
 
 mkdirSync(dist, { recursive: true });
 
 const ctx = await context({
+  define,
+  plugins: args.native ? [{ name: 'browser-api', setup(build) {
+    build.onResolve({ filter: /^\.\/api$/ }, () => ({ path: join(root, 'src', 'native-api.ts') }));
+    if (args.native) build.onResolve({ filter: /^\.\/native-client\.mjs$/ }, () => ({ path: './native-client.mjs', external: true }));
+  } }] : [],
   entryPoints: [join(root, "src", "main.ts")],
   bundle: true,
   minify: !args.watch,
@@ -47,12 +57,37 @@ async function buildAll() {
   copyFileSync(join(root, "src", "tokens.css"), join(dist, "tokens.css"));
   copyFileSync(join(root, "node_modules", "mermaid", "dist", "mermaid.min.js"), join(dist, "mermaid.min.js"));
   for (const name of readdirSync(join(root, "public"))) copyFileSync(join(root, "public", name), join(dist, name));
+  if (args.native) {
+    for (const name of ['native-client.mjs', 'native-store.mjs']) copyFileSync(join(root, 'src', name), join(dist, name));
+    await build({
+      entryPoints: [join(root, 'src', 'native-worker.mjs')], outfile: join(dist, 'native-worker.mjs'),
+      bundle: true, format: 'esm', define, external: ['./wasm_exec.js', './native-store.mjs'],
+    });
+    for (const name of ['native.wasm.gz', 'runtime.json', 'wasm_exec.js']) {
+      copyFileSync(join(resolve(args.runtime), name), join(dist, name));
+    }
+  }
+  writeFileSync(join(dist, "icon-192.png"), icon(192));
+  writeFileSync(join(dist, "icon-512.png"), icon(512));
+  writeFileSync(join(dist, "apple-touch-icon.png"), icon(180));
+  if (nativeRuntime) {
+    const names = [
+      'app.js', 'app.css', 'tokens.css', 'mermaid.min.js', ...readdirSync(join(root, 'public')),
+      'icon-192.png', 'icon-512.png', 'apple-touch-icon.png',
+      'native-client.mjs', 'native-worker.mjs', 'native-store.mjs',
+      'native.wasm.gz', 'runtime.json', 'wasm_exec.js',
+    ];
+    const assets = Object.fromEntries(names.sort().map(name => [name, {
+      sha256: createHash('sha256').update(readFileSync(join(dist, name))).digest('hex'),
+      ...(name === 'native.wasm.gz' ? { decodedHash: nativeRuntime.wasm.sha256, decodedBytes: nativeRuntime.wasm.bytes } : {}),
+    }]));
+    const version = createHash('sha256').update(JSON.stringify(assets)).digest('hex');
+    const template = readFileSync(join(root, 'src', 'native-offline-worker.js'), 'utf8');
+    writeFileSync(join(dist, 'native-offline.js'), template.replace('/* BUILD */', `const BUILD = ${JSON.stringify({ version, assets })};`));
+  }
 }
 
 await buildAll();
-writeFileSync(join(dist, "icon-192.png"), icon(192));
-writeFileSync(join(dist, "icon-512.png"), icon(512));
-writeFileSync(join(dist, "apple-touch-icon.png"), icon(180));
 
 if (args.watch) {
   // An editor save fires several events; one rebuild per burst is enough.

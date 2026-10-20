@@ -1,0 +1,19 @@
+diff --git a/internal/shared/mmf_js.go b/internal/shared/mmf_js.go
+new file mode 100644
+index 00000000..1cdebd1e
+--- /dev/null
++++ b/internal/shared/mmf_js.go
+@@ -0,0 +1,13 @@
++package shared
++
++import "fmt"
++
++type Mmb []byte
++
++func NewMMB(size int64) (Mmb, error) {
++	if size < 0 || size > 1<<30 {
++		return nil, fmt.Errorf("browser buffer size out of range: %d", size)
++	}
++	return make(Mmb, int(size)), nil
++}
++func (m *Mmb) Delete() { *m = nil }

@@ -1,0 +1,20 @@
+diff --git a/id_js.go b/id_js.go
+new file mode 100644
+index 00000000..bdfa908d
+--- /dev/null
++++ b/id_js.go
+@@ -0,0 +1,5 @@
++package machineid
++
++import "errors"
++
++func machineID() (string, error) { return "", errors.New("browser probe: no host machine identity") }
+diff --git a/go.mod b/go.mod
+new file mode 100644
+index 00000000..97f490de
+--- /dev/null
++++ b/go.mod
+@@ -0,0 +1,3 @@
++module github.com/denisbrodbeck/machineid
++
++go 1.25

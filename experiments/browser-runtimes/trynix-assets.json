@@ -1,0 +1,283 @@
+{
+  "source": "https://github.com/fzakaria/trynix",
+  "sourceCommit": "7e7e793594cb58efb48279b17b4e15bbc6fbe91b",
+  "note": "Hashes of deployed assets fetched during the experiment; source commit is inspected source, not a verified deployment build attestation.",
+  "assets": [
+    {
+      "url": "https://trynix.dev/?pkg=glibc&boot=1",
+      "type": "text/html; charset=utf-8",
+      "bytes": 11051,
+      "sha256": "b0e70eb1e3a11f62fc21eb7a971d6d09bbddff882cdf154c07962dddf51562a7"
+    },
+    {
+      "url": "https://trynix.dev/?pkg=glibc&pkg=git&boot=1",
+      "type": "text/html; charset=utf-8",
+      "bytes": 11051,
+      "sha256": "b0e70eb1e3a11f62fc21eb7a971d6d09bbddff882cdf154c07962dddf51562a7"
+    },
+    {
+      "url": "https://trynix.dev/assets.json",
+      "type": "application/json; charset=utf-8",
+      "bytes": 482,
+      "sha256": "3aa1200525f6c039445c470bfe0a19368a67898a33cd4969029026f298194524"
+    },
+    {
+      "url": "https://trynix.dev/guest/bios-256k.bin?v=f1d4f3960111",
+      "type": "application/octet-stream",
+      "bytes": 262144,
+      "sha256": "f1d4f396011197eb989029659cde250751cc711c336b8fbbe6f77cfe0dc5dcd8"
+    },
+    {
+      "url": "https://trynix.dev/guest/bzImage?v=a5e995aa1c72",
+      "type": "application/octet-stream",
+      "bytes": 3744768,
+      "sha256": "a5e995aa1c72fa8963fe8b11af5a5612bf7df11c5e88d1effde59e4224902349"
+    },
+    {
+      "url": "https://trynix.dev/guest/initramfs.cpio.gz?v=e5ec03dc67fe",
+      "type": "application/gzip",
+      "bytes": 821457,
+      "sha256": "e5ec03dc67fef7368dd4439b0172345573b15ef8b54e5ddcc3b7f578dcb2b655"
+    },
+    {
+      "url": "https://trynix.dev/guest/kvmvapic.bin?v=cdf057a71b07",
+      "type": "application/octet-stream",
+      "bytes": 9216,
+      "sha256": "cdf057a71b07e3b52b19cbe210bdefa59250d01a9810b960f7fe1f98eed95a27"
+    },
+    {
+      "url": "https://trynix.dev/guest/linuxboot_dma.bin?v=9c49e255340c",
+      "type": "application/octet-stream",
+      "bytes": 1536,
+      "sha256": "9c49e255340c78fc12e54ed043462bca02fb7fca29b7cfab62ff88a5344b6950"
+    },
+    {
+      "url": "https://trynix.dev/guest/machine.json?v=40c5ae6cb1f3",
+      "type": "application/json; charset=utf-8",
+      "bytes": 2711,
+      "sha256": "40c5ae6cb1f31f1e1c4a2cdd9b3ea9103de40d72beb1e1a0209a1b570e5e29aa"
+    },
+    {
+      "url": "https://trynix.dev/guest/vgabios-stdvga.bin?v=651513519f9e",
+      "type": "application/octet-stream",
+      "bytes": 39424,
+      "sha256": "651513519f9e0d5b99d3b051a8f5c68db69e987339b59a441d371068c34c146b"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/agent.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 7013,
+      "sha256": "ee210255e7dbdcc51860651dd7a61fd208f26a2416be7bef39bd5875ad8eeac7"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/analytics.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 3107,
+      "sha256": "6e3d0b2a2f9e6ed9d396f72ad90c445a466e2e53159cdcfdaa9a4ef8ee996c6a"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/app.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 37741,
+      "sha256": "813f2f155440dfb7d8425312533d187aa75773de82b6089a42a4d1d0011a2aec"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/assets.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 1547,
+      "sha256": "5d27c211eaa9f1c67cf3240a41fd0bfbd506dfce164fa8c1a7e6bbd117cf6a23"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/boot.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 21520,
+      "sha256": "7b5af29e58591d41af4c25c95f5ddda4b0da43ac00baf29f874822261b105755"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/cache.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 2199,
+      "sha256": "12a632722edddb34fa53e297c8cef42f37fbbadc3dce9a85cca7e71e50878761"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/closure.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 3664,
+      "sha256": "314f67b37435ae7cbfb840f0f4fd9a41d3994dfb3d65d77b478b4891f612406d"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/complete.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 5077,
+      "sha256": "311e8edb9a6834b1301e7e126cf26c667b8e7d36d0ab8b294e04f8ef3c8cc438"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/config.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 2979,
+      "sha256": "00bbbb1d79fb6ffc693b027a5ee0ad3dd4085cf1e706209d4353763c2bb2220d"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/format.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 473,
+      "sha256": "40df69e84b88b8c1d0423ca67642456e16aeb7c15280fb65d9ca51c90421d6f0"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/hash.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 4162,
+      "sha256": "dbc27d56c875249aab0774f167c8be0dd26d581fa80678783dbf7e6d2f8df110"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/keybar.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 4390,
+      "sha256": "99704b429d40a771be9502877ef63ee98bb90b7a1e6d47bd62ac672566a55e8b"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/log.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 1554,
+      "sha256": "871add7714ba1d5e4a74f8c74a710a2f80ff641e79cf61672a0cf7229f22e62f"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/multiverse.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 9639,
+      "sha256": "702e7ff182764eee05b3a2fc590e15522287b9f4b2d88292040bc54110295a1e"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/nar.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 2974,
+      "sha256": "d715d53360843bc62b7192f584b68afa30aa4ec0f329f26532e01fb1b9c2890f"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/net.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 4855,
+      "sha256": "0a96cccd53f32e137dba79d9417784c641b34b455b6746a3147d5c98a2dd43e0"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/outputs.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 1702,
+      "sha256": "6c1adeb5dd02200eef75de27e9589115ef070a5a2dfd09fc8c57976ad314aa10"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/progress.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 1880,
+      "sha256": "824aa25962cbcb40dd7ffea1974388f8ce29d8d8d844a945eb91494350cd8d74"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/ranges.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 2902,
+      "sha256": "a437f5a370be2bd92da99b48f00eac6f84469d4ab764aae69fb562769595e58a"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/report.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 4009,
+      "sha256": "4ae37b44c2a04c40476bd3d5f119c27054787b905fd54d15ee2b1d2c1c39fd30"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/search.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 8679,
+      "sha256": "95bba29c4a7355f44eabbb7318e0454f8e39c81b55ea77f20b7cc1664f1b09bd"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/store.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 17272,
+      "sha256": "8beba60ffa77e2ac6b62bb443d2ba1273fd394750f81d85143076b0478eb875e"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/substituters.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 6833,
+      "sha256": "d876ebcd699eb9f16a91db3b6ce4415af71488528e2dde78fdea782931f45271"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/terminal.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 6415,
+      "sha256": "43c106009a7a0618ba0358f2d7591995b421ff3e73e62e42be4e7b9980c2b2a1"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/url.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 2653,
+      "sha256": "fde0dfd7d49f97c43e04f81d6f028078c3eaedc864d45c70eecaf7b381c60845"
+    },
+    {
+      "url": "https://trynix.dev/js.2665d2d35976/webmcp.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 7719,
+      "sha256": "2130738cd5e0e5fbda7d22e496cdb8c0f3185ac22dc774662978c0d2fcacea53"
+    },
+    {
+      "url": "https://trynix.dev/qemu/out.js?v=64ba604a4ad0",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 229599,
+      "sha256": "64ba604a4ad0ad2ddebb0940a9812e43f0f8a6bd72fdb88bf3d46666a19cc6b7"
+    },
+    {
+      "url": "https://trynix.dev/qemu/qemu-system-x86_64.wasm?v=8e0f4f173528",
+      "type": "application/wasm",
+      "bytes": 13190893,
+      "sha256": "8e0f4f1735289bf0e112dcdb25de1b89ed80e2c854e518d70b21642668ffcc62"
+    },
+    {
+      "url": "https://trynix.dev/qemu/qemu-system-x86_64.worker.js?v=8efab02a9cb5",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 6000,
+      "sha256": "8efab02a9cb5ee63ced22e9853bce74cbb895d15a5fb3d5139fef855c50f62ea"
+    },
+    {
+      "url": "https://trynix.dev/qemu/vm.state?v=bd620cbbfaf7",
+      "type": "application/octet-stream",
+      "bytes": 35411368,
+      "sha256": "bd620cbbfaf7aebf235d896115e6a676613cdbc6acbfbd0eeb111d44e9dd79ea"
+    },
+    {
+      "url": "https://trynix.dev/style.css",
+      "type": "text/css; charset=utf-8",
+      "bytes": 15028,
+      "sha256": "1b871e4e5f69041ac8fb8de0c557982174e8a1c3bc75fe97f7c91955c86a0582"
+    },
+    {
+      "url": "https://trynix.dev/vendor/__vite-browser-external-2447137e.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 41,
+      "sha256": "f8c456031e5001c0cda4837cd9ee3a33d79beeba120ec633ec9d990632fb2aa6"
+    },
+    {
+      "url": "https://trynix.dev/vendor/fzstd.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 8394,
+      "sha256": "fbea1c25c4413b620ca3f59e6037d9f6c675c5c7f690e4d660143188f686461d"
+    },
+    {
+      "url": "https://trynix.dev/vendor/ghostty-web.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 702145,
+      "sha256": "457cb34280030cac3eb177707ccf838dc74577ba02d106f957f656df33ae8547"
+    },
+    {
+      "url": "https://trynix.dev/vendor/xterm-pty.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 12422,
+      "sha256": "d242a568a3b1ef487ede00e10108edbc4b9fd93de12db0ef694c9b81e691c649"
+    },
+    {
+      "url": "https://trynix.dev/vendor/xzwasm.js",
+      "type": "application/javascript; charset=utf-8",
+      "bytes": 24730,
+      "sha256": "21310539841ea93a0aba6d8702e6fee631073ef192a62cc15b356e2d72ada39d"
+    }
+  ]
+}
