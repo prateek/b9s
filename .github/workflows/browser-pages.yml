@@ -1,0 +1,53 @@
+name: Browser Pages
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Published browser release tag
+        required: true
+        default: web-v0.1.0
+      sha256:
+        description: Expected SHA256 of b9s-web.tar.gz
+        required: true
+        default: f2d63c01a0db46ded99c6461071845bc04928f82a8b249161809032660de9655
+permissions:
+  contents: read
+concurrency:
+  group: browser-pages
+  cancel-in-progress: false
+jobs:
+  package:
+    if: github.repository == 'prateek/b9s' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download and verify released site
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE: ${{ inputs.release }}
+          SHA256: ${{ inputs.sha256 }}
+        run: |
+          [[ "$RELEASE" =~ ^web-v[0-9][0-9A-Za-z.+-]*$ ]]
+          [[ "$SHA256" =~ ^[0-9a-f]{64}$ ]]
+          gh release download "$RELEASE" --repo prateek/b9s --pattern b9s-web.tar.gz
+          printf '%s  b9s-web.tar.gz\n' "$SHA256" | sha256sum --check --strict
+          tar -xzf b9s-web.tar.gz
+          test -f b9s-web/index.html
+          test -f b9s-web/native-config.json
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b
+        with:
+          path: b9s-web
+  deploy:
+    needs: package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy static site
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e

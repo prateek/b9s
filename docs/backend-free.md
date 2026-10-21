@@ -2,6 +2,8 @@
 
 The first browser release is a read-only SPA using the pinned native Beads/Dolt engine compiled to WASM. It reads public GitHub native Dolt data without asking for tokens. The former issue-JSON snapshot adapter and Actions sync workflow are retired. JSON returned inside the UI is a projection computed by the native engine, not the storage or synchronization format.
 
+Open the [hosted synthetic demo](https://prateek.github.io/b9s/) or download the [web-v0.1.0 release](https://github.com/prateek/b9s/releases/tag/web-v0.1.0). The hosted site uses only the public synthetic data in this fork.
+
 ## Build and configure
 
 Use Node 24 or later, Go 1.27.2 and a C compiler. Build destinations for the runtime must be new.
@@ -71,4 +73,10 @@ The inherited Go checks remain `go build ./...`, `go vet ./...`, and `make test-
 
 The product, vendored runtime, tests, release workflows, and future OAuth Worker source belong in `prateek/b9s`. Real Beads data repositories remain separately selected and authoritative. The synthetic demo uses only a dedicated ref in this fork. No upstream posting, external data-repository modification, GitHub App registration or Cloudflare deployment is part of the first release. See the [release plan](plans/2026-10-20-web-release-stages.md).
 
-`node scripts/package-browser.mjs <runtime-directory> <new-release-directory>` creates the read-only site, synthetic public configuration, provenance/source/licenses, archive and SHA256 checksums. `web-v*` tags run the dedicated browser build workflow and do not invoke the inherited CLI/Homebrew release. Roll back by serving a previous complete archive; never mix its JavaScript, Go shim and WASM files. No Pages deployment is performed by this workflow.
+`node scripts/package-browser.mjs <runtime-directory> <new-release-directory>` creates the read-only site, synthetic public configuration, provenance/source/licenses, archive and SHA256 checksums. `web-v*` tags run the dedicated browser build workflow and do not invoke the inherited CLI/Homebrew release. The build workflow does not deploy Pages.
+
+## Pages deployment and rollback
+
+The separate `Browser Pages` workflow deploys an existing published browser release. It runs manually from `main` in `prateek/b9s`, downloads `b9s-web.tar.gz`, verifies the supplied SHA256, and uploads the complete site to the `github-pages` environment. Repository Pages settings must use GitHub Actions as the build source. Deployments are serialized; a documentation push does not redeploy the site.
+
+To update or roll back, run `browser-pages.yml` with the desired published `web-v*` tag and its independently checked archive checksum. Inspect that release's `native-config.json` before deploying: only sources approved for public hosting belong on Pages. Never mix JavaScript, Go shim and WASM files from different archives. Check the deployment job, open the live page, confirm the expected issues and read-only banner, and verify refresh after rollout. Existing browser caches may continue serving the preceding version until the service worker activates; reload after it finishes preparing.

@@ -1,6 +1,43 @@
-# b9s
+# b9s — native Beads in your browser
 
-This fork adds a **client-side b9s SPA**: the existing mobile UI, pinned native Beads/Dolt logic in WASM, IndexedDB persistence, and public GitHub reads over CORS. The first browser release is read-only and requires no tokens or application server. Start with [the build and configuration guide](docs/backend-free.md), including current validation limits. Real data sources remain separately configurable; the demo contains synthetic data only. The instructions below describe the inherited terminal and hosted web application.
+This is [prateek/b9s](https://github.com/prateek/b9s), a fork of [vanderheijden86/b9s](https://github.com/vanderheijden86/b9s). It runs the mobile-friendly b9s UI and pinned native Beads/Dolt engine entirely in your browser, using WebAssembly and IndexedDB.
+
+**[Open the SPA](https://prateek.github.io/b9s/)** · [Download web-v0.1.0](https://github.com/prateek/b9s/releases/tag/web-v0.1.0) · [Build and configure](docs/backend-free.md)
+
+The first release is **read-only and requires no tokens, login, or application backend**. The hosted demo contains synthetic issues only. Its initial download includes an approximately 41 MiB compressed runtime; allow time for the first load.
+
+## What this fork provides
+
+- The existing responsive tree, board, issue details, search, dependency and project views.
+- Native Beads/Dolt data read directly from a public GitHub repository over CORS. Beads remains authoritative; there is no scheduled issue-JSON snapshot pipeline.
+- Refresh from GitHub, local IndexedDB persistence, and offline startup once the application reports its offline cache is ready. Failed refreshes retain the last readable revision and show stale status.
+- Pristine pinned Beads sources, provenance, licenses, and separately ordered dependency patches. Builds verify and apply patches into a build tree.
+- A downloadable static site and a checksum-verified GitHub Pages deployment. No credentials are embedded in the site.
+
+## Using your own data
+
+The demo reads `prateek/b9s` at Git ref `refs/dolt/demo`, native Dolt branch `main`. To host another source, download the release archive, extract `b9s-web`, and edit its `native-config.json`. Configure the repository, Git ref, and Dolt branch separately, then serve the directory over HTTPS. The source must already contain native data published by `bd dolt push`; selecting a repository does not publish its data.
+
+See the [configuration example and build instructions](docs/backend-free.md#build-and-configure). The public demo does not connect to your local tracker or discover private repositories.
+
+## Current limits and next release
+
+| Area | First browser release |
+| --- | --- |
+| Writes and authentication | Disabled; no token prompts or GitHub writes |
+| Source access | Public GitHub repositories only; anonymous API rate limits apply |
+| Native compatibility | Pinned bd 1.3.1, schema 66; incompatible databases are rejected |
+| Memory preview | Preview Memory graph workspaces are unsupported |
+| Browser validation | Chromium, WebKit and Orca; mobile viewport tests, not physical-phone performance qualification |
+| Storage | Browser eviction can remove cached data; old revisions consume local storage |
+
+The next stage is authenticated writes with a Cloudflare Worker for the OAuth flow, with Worker source kept in this repository. That stage is planned, not deployed. The [release plan](docs/plans/2026-10-20-web-release-stages.md) describes repository boundaries and the write-conflict work required before enabling edits.
+
+The [operating guide](docs/backend-free.md) covers reproducible builds, validation, deployment and rollback. Browser releases use `web-v*` tags; upstream CLI releases use their existing version tags. Report fork-specific problems in [this fork's issue tracker](https://github.com/prateek/b9s/issues).
+
+## Inherited terminal and hosted-server application
+
+The documentation below describes upstream b9s, including its CLI installation, paired browser server, editable demo, and write features. Those write and server features are separate from this fork's read-only Pages SPA. Upstream installation commands install upstream b9s.
 
 ![Go Version](https://img.shields.io/github/go-mod/go-version/vanderheijden86/b9s?style=for-the-badge&color=6272a4)
 ![License](https://img.shields.io/badge/License-MIT-50fa7b?style=for-the-badge)
