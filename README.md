@@ -1,4 +1,4 @@
-# b9s — native Beads in your browser
+# b9s: native Beads in your browser
 
 This is [prateek/b9s](https://github.com/prateek/b9s), a fork of [vanderheijden86/b9s](https://github.com/vanderheijden86/b9s). It runs the mobile-friendly b9s UI and pinned native Beads/Dolt engine entirely in your browser, using WebAssembly and IndexedDB.
 
